@@ -1,5 +1,4 @@
 import { Request } from 'express';
-import { NextFunction } from 'express-serve-static-core';
 import multer from 'multer';
 
 type FileNameCallbackFunc = (error: Error | null, filename: string) => void;
