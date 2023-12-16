@@ -23,7 +23,7 @@ const mongoConnection = async () => {
     mongoose.plugin(mongooseUniqueIdPlugin);
     mongoose.plugin(mongooseBaseMethodPlugin);
 
-    console.log('Successfully connected to MongoDB');
+    logger.info('Successfully connected to MongoDB');
   } catch (error) {
     logger.error(error);
     process.exit(1);

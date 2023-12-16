@@ -9,6 +9,7 @@ import { DEV_CONFIG, PROD_CONFIG } from '#/constants/setup';
 import { NotFoundError } from '#/errors/definedErrors';
 import errorHandler from '#/errors/errorHandler';
 import router from '#/routes';
+import { logger } from '#/libs/logger/winstonLogger';
 import mongoConnection from '#/utils/connectMongoDB';
 import { stream } from '#/libs/logger/winstonLogger';
 
@@ -45,7 +46,7 @@ const initExpressApp = () => {
   });
 
   app.listen(CURRENT_CONFIG.port, () => {
-    console.log(`Holiday Capsule Server is running on ${CURRENT_CONFIG.port}`);
+    logger.info(`Holiday Capsule Server is running on ${CURRENT_CONFIG.port}`);
   });
 
   // Security (배포 환경에서만 적용)
