@@ -10,7 +10,7 @@ import { NotFoundError } from '#/errors/definedErrors';
 import errorHandler from '#/errors/errorHandler';
 import router from '#/routes';
 import mongoConnection from '#/utils/connectMongoDB';
-import { stream } from '#/utils/logger';
+import { stream } from '#/libs/logger/winstonLogger';
 
 dotenv.config();
 

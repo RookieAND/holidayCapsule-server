@@ -1,31 +1,30 @@
-import { DeleteObjectCommand, PutObjectCommand, S3Client } from '@aws-sdk/client-s3';
+import {
+  DeleteObjectCommand,
+  PutObjectCommand,
+  S3Client,
+} from '@aws-sdk/client-s3';
 import fs from 'fs';
 
 import { InternalServerError } from '#/errors/definedErrors';
+import { logger } from '#/libs/logger/winstonLogger';
 
 const storage = new S3Client({
   region: 'ap-northeast-2',
-})
+});
 
 class S3StorageModule {
-
   static async putObject({
     file,
-    presetPin,
+    fileKey,
   }: {
     file: Express.Multer.File;
-    presetPin: string;
+    fileKey: string;
   }): Promise<string> {
     try {
-      // TODO : req.files 에서 읽은 Multer File이 아닌, sharp로 변환된 파일을 읽도록 해야 함
-      const originFileName = `${file.originalname.split('.')[0]}.webp`;
-      const fileContent: Buffer = fs.readFileSync(`uploads/${originFileName}`);
-      const fileKey = `preset/${presetPin}/${originFileName}`
-
       const params: PutObjectCommand = new PutObjectCommand({
         Bucket: process.env.S3_BUCKET_NAME || '',
         Key: fileKey,
-        Body: fileContent,
+        Body: file.buffer,
       });
 
       const result = await storage.send(params);
@@ -35,15 +34,9 @@ class S3StorageModule {
           'S3 버킷에 파일을 업로드하는 과정에서 문제가 생겼습니다.',
         );
 
-      await new Promise((resolve, reject) => {
-        fs.unlink(`uploads/${originFileName}`, (error) => {
-          return error ? reject(error) : resolve('success');
-        });
-      });
-
       return fileKey;
     } catch (error) {
-      console.log(error);
+      logger.error(error);
       throw error;
     }
   }
@@ -57,7 +50,7 @@ class S3StorageModule {
       const result = await storage.send(params);
       return result;
     } catch (error) {
-      console.error(error);
+      logger.error(error);
       throw error;
     }
   }

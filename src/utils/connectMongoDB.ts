@@ -2,6 +2,7 @@ import mongoose from 'mongoose';
 import { softDeletePlugin } from 'soft-delete-plugin-mongoose';
 
 import { DEV_CONFIG, PROD_CONFIG } from '#/constants/setup';
+import { logger } from '#/libs/logger/winstonLogger';
 import { mongooseBaseMethodPlugin } from '#/libs/mongoose/base-method';
 import { mongooseUniqueIdPlugin } from '#/libs/mongoose/unique-id';
 
@@ -24,7 +25,8 @@ const mongoConnection = async () => {
 
     console.log('Successfully connected to MongoDB');
   } catch (error) {
-    console.error(error);
+    logger.error(error);
+    process.exit(1);
   }
 };
 
