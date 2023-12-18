@@ -9,9 +9,9 @@ import { DEV_CONFIG, PROD_CONFIG } from '#/constants/setup';
 import { NotFoundError } from '#/errors/definedErrors';
 import errorHandler from '#/errors/errorHandler';
 import router from '#/routes';
-import { logger } from '#/libs/logger/winstonLogger';
+import { logger } from '#/libs/logger';
 import mongoConnection from '#/utils/connectMongoDB';
-import { stream } from '#/libs/logger/winstonLogger';
+import { stream } from '#/libs/logger';
 
 dotenv.config();
 
@@ -30,7 +30,7 @@ const initExpressApp = () => {
   app.use(express.urlencoded({ extended: true }));
 
   // Logging with Winston
-  app.use(morgan('combined', { stream }));
+  app.use(morgan('dev', { stream }));
 
   // CORS Setting
   app.use(

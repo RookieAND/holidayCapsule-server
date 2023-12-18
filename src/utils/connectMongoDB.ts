@@ -2,9 +2,8 @@ import mongoose from 'mongoose';
 import { softDeletePlugin } from 'soft-delete-plugin-mongoose';
 
 import { DEV_CONFIG, PROD_CONFIG } from '#/constants/setup';
-import { logger } from '#/libs/logger/winstonLogger';
+import { logger } from '#/libs/logger';
 import { mongooseBaseMethodPlugin } from '#/libs/mongoose/base-method';
-import { mongooseUniqueIdPlugin } from '#/libs/mongoose/unique-id';
 
 const isProd = process.env.NODE_ENV === 'production';
 const CURRENT_CONFIG = isProd ? PROD_CONFIG : DEV_CONFIG;
@@ -19,8 +18,6 @@ const mongoConnection = async () => {
      * @see https://github.com/nour-karoui/mongoose-soft-delete
      */
     mongoose.plugin(softDeletePlugin);
-
-    mongoose.plugin(mongooseUniqueIdPlugin);
     mongoose.plugin(mongooseBaseMethodPlugin);
 
     logger.info('Successfully connected to MongoDB');

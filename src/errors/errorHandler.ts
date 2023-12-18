@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
-import { logger } from '#/libs/logger/winstonLogger';
+import { logger } from '#/libs/logger';
 
 import {
   BadRequestError,
