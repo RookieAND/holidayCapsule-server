@@ -30,7 +30,7 @@ const initExpressApp = () => {
   app.use(express.urlencoded({ extended: true }));
 
   // Logging with Winston
-  app.use(morgan('combined', { stream }));
+  app.use(morgan('dev', { stream }));
 
   // CORS Setting
   app.use(
