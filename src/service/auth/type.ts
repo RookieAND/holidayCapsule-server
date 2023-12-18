@@ -1,9 +1,10 @@
 export type AuthServiceReqParam = {
     register: {
-        id: string;
+        socialId: number;
         profileImageUrl: string;
         nickname: string;
     }
+    login: {
+        userId: string
+    }
 }
-
-export type AuthServiceResponse = {}

@@ -10,7 +10,7 @@ export interface UserType extends Document {
     /**
      * 소셜 플랫폼으로부터 발급 받은 고유 Id
      */
-    socialId: string;
+    socialId: number;
     /**
      * 닉네임
      */
@@ -27,7 +27,7 @@ export const userSchema = new Schema<UserType>({
         unique: true,
     },
     socialId: {
-        type: String,
+        type: Number,
         required: true,
     },
     nickname: { type: String },
