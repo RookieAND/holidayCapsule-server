@@ -2,7 +2,7 @@ import mongoose from 'mongoose';
 import { softDeletePlugin } from 'soft-delete-plugin-mongoose';
 
 import { DEV_CONFIG, PROD_CONFIG } from '#/constants/setup';
-import { logger } from '#/libs/logger/winstonLogger';
+import { logger } from '#/libs/logger';
 import { mongooseBaseMethodPlugin } from '#/libs/mongoose/base-method';
 
 const isProd = process.env.NODE_ENV === 'production';
