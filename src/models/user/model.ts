@@ -6,9 +6,7 @@ import { type UserType, userSchema } from './schema';
 
 type PluginModel<T extends Document> = BaseMethodModel<T> & SoftDeleteModel<T>
 
-type findOne = PluginModel<UserType>['findOne'];
-
 export const userModel = model<UserType, PluginModel<UserType>>(
-    'meeting',
+    'user',
     userSchema,
 );
