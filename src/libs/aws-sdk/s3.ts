@@ -3,7 +3,6 @@ import {
   PutObjectCommand,
   S3Client,
 } from '@aws-sdk/client-s3';
-import fs from 'fs';
 
 import { InternalServerError } from '#/errors/definedErrors';
 import { logger } from '#/libs/logger';
