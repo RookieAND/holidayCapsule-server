@@ -5,13 +5,26 @@ import type {
     ProjectionType,
     QueryOptions,
     Schema,
+    UpdateQuery,
 } from 'mongoose';
 
 export type BaseMethodModel<T extends Document> = Model<T> & {
-  findOne(): Promise<T | null>
-  find(): Promise<T[] | null>
-  findOneAndUpdate(): Promise<T>
-}
+    findOne(
+        filter: FilterQuery<T>,
+        projection: ProjectionType<T> | null | undefined,
+        options: QueryOptions<T>,
+    ): Promise<T | null>;
+    find(
+        filter: FilterQuery<T>,
+        projection: ProjectionType<T> | null | undefined,
+        options: QueryOptions<T>,
+    ): Promise<T[] | null>;
+    findOneAndUpdate(
+        filter: FilterQuery<T>,
+        update: UpdateQuery<T>,
+        options: QueryOptions<T>,
+    ): Promise<T>;
+};
 
 /**
  * Schema 에 기본적인 Method 을 추가하여 적용하는 mongooseBaseMethodPlugin

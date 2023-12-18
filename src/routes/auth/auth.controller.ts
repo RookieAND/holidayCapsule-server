@@ -11,18 +11,23 @@ export class AuthController {
         const { id, profileImageUrl, nickname } = req.body;
 
         const user = await userModel.findOne({ socialId: id });
-        await userModel.findOne
 
+        // NOTE : 유저 정보가 있다면 로그인을 진행하고, 그렇지 않은 경우 회원가입 진행
         if (user) {
-            const accessToken = AuthService.createAccessToken(user.id);
-            const refreshToken = AuthService.createRefreshToken(user.id);
-
-            return res.status(200).json({});
+            console.log(user);
+            const { accessToken, refreshToken } = AuthService.login({
+                userId: user.id,
+            });
+            res.cookie('refresh-token', refreshToken);
+            return res.status(200).json({ accessToken });
         }
 
-        await userModel.create({ socialId: id, profileImageUrl, nickname });
-        // TODO : JWT 로직 추가 예정
-
-        return res.status(201).json({});
+        const { accessToken, refreshToken } = await AuthService.register({
+            socialId: id,
+            profileImageUrl,
+            nickname,
+        });
+        res.cookie('refresh-token', refreshToken);
+        return res.status(201).json({ accessToken });
     };
 }
