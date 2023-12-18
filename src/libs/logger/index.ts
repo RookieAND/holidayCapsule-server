@@ -34,6 +34,6 @@ export const logger = winston.createLogger({
 // morgan
 export const stream = {
   write: (message: string) => {
-    logger.info(`${timeStamp()} ${message}`);
+    logger.info(message);
   },
 };
