@@ -17,12 +17,14 @@ albumRouter.post(
 
 albumRouter.delete(
     '/:albumId',
+    checkLogin,
     validateMiddleware(albumSchema.deleteAlbum),
     AlbumController.deleteAlbum,
 );
 
 albumRouter.patch(
     '/:albumId',
+    checkLogin,
     validateMiddleware(albumSchema.patchModifyAlbum),
     AlbumController.patchModifyAlbum,
 )

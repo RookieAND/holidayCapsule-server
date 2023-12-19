@@ -20,7 +20,7 @@ export const checkLogin: RequestHandler<
     qs.ParsedQs,
     ResponseLocalQuery
 > = async (req, res, next) => {
-    const accessToken = req.headers.authorization;
+    const accessToken = req.headers.authorization?.split('Bearer ')[1];
 
     if (!accessToken) {
         throw new UnauthorizedError('요청에 사용자 정보가 없습니다.');
@@ -35,10 +35,9 @@ export const checkLogin: RequestHandler<
     const user = await userModel.findOne({ id: userId });
 
     if (!user) {
-        throw new UnauthorizedError('인가 받은 토큰이 유효하지 않습니다.');
+        throw new UnauthorizedError('유효하지 않은 사용자 정보입니다.');
     }
 
     res.locals.userId = userId;
-
     next();
 };
