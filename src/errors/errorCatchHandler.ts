@@ -1,10 +1,10 @@
 import { NextFunction } from 'express';
 
 import type {
-  ValidatedRequest,
-  ValidatedRequestHandler,
-  ValidatedResponse,
-  ValidationSchema,
+    ValidatedRequest,
+    ValidatedRequestHandler,
+    ValidatedResponse,
+    ValidationSchema,
 } from '#/types/validation';
 
 /**
@@ -15,7 +15,13 @@ import type {
  */
 
 export const errorCatchHandler =
-  <T extends ValidationSchema>(fn: ValidatedRequestHandler<T>) =>
-  (req: ValidatedRequest<T>, res: ValidatedResponse<T>, next: NextFunction) => {
-    return fn(req, res, next).catch(next);
-  };
+    <T extends ValidationSchema>(
+        fn: ValidatedRequestHandler<T>,
+    ) =>
+    (
+        req: ValidatedRequest<T>,
+        res: ValidatedResponse<T>,
+        next: NextFunction,
+    ) => {
+        return fn(req, res, next).catch(next);
+    };
