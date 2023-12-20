@@ -1,3 +1,5 @@
+import { RequestHandler } from 'express-serve-static-core';
+
 import type { AlbumSchema } from '#/routes/album/album.validation';
 import { AlbumService } from '#/service/album/album.service';
 import { ValidatedRequestHandler } from '#/types/validation';
@@ -23,7 +25,7 @@ export class AlbumController {
             const { userId } = res.locals;
 
             const deleteResult = await AlbumService.deleteAlbum({
-                ownerId: userId as string,
+                ownerId: userId,
                 albumId,
             });
 
@@ -39,12 +41,37 @@ export class AlbumController {
         const { userId } = res.locals;
 
         const updateResult = await AlbumService.modifyAlbum({
-            ownerId: userId as string,
+            ownerId: userId,
             albumId,
             name,
         });
 
         // NOTE : 업데이트 된 컬렉션이 없다면 No Content (204) 반환
         return res.sendStatus(updateResult ? 200 : 204);
+    };
+
+    static getAlbum: ValidatedRequestHandler<AlbumSchema['getAlbum']> = async (
+        req,
+        res,
+    ) => {
+        const { albumId } = req.params;
+        const { userId } = res.locals;
+
+        const item = await AlbumService.getAlbum({
+            albumId,
+            ownerId: userId,
+        });
+
+        return res.status(200).json({ item });
+    };
+
+    static getAlbumList: RequestHandler = async (_, res) => {
+        const { userId } = res.locals;
+
+        const items = await AlbumService.getAlbumList({
+            ownerId: userId,
+        });
+
+        return res.status(200).json({ items });
     };
 }

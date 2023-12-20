@@ -22,6 +22,7 @@ export interface RequestQuery {
 interface ResponseLocalQuery<T extends ValidationSchema> {
     [key: string]: unknown;
     query?: T['query'];
+    userId: string;
 }
 
 export type ValidationSchema = {

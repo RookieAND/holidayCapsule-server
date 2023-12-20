@@ -12,4 +12,11 @@ export type AlbumServiceReqParam = {
         albumId: string;
         name: string;
     }
+    getAlbum: {
+        albumId: string;
+        ownerId: string;
+    }
+    getAlbumList: {
+        ownerId: string;
+    }
 }

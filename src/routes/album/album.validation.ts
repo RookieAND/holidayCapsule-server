@@ -11,6 +11,11 @@ export const albumSchema = {
             albumId: z.string(),
         })
     }),
+    getAlbum: z.object({
+        params: z.object({
+            albumId: z.string(),
+        })
+    }),
     patchModifyAlbum: z.object({
         params: z.object({
             albumId: z.string(),
@@ -24,5 +29,6 @@ export const albumSchema = {
 export type AlbumSchema = {
     postCreateAlbum: z.infer<typeof albumSchema.postCreateAlbum>;
     deleteAlbum: z.infer<typeof albumSchema.deleteAlbum>;
+    getAlbum: z.infer<typeof albumSchema.getAlbum>;
     patchModifyAlbum: z.infer<typeof albumSchema.patchModifyAlbum>;
 };

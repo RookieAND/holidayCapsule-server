@@ -1,7 +1,7 @@
 import { Router } from 'express';
 
-import { validateMiddleware } from '#/middlewares/validation';
 import { checkLogin } from '#/middlewares/checkLogin';
+import { validateMiddleware } from '#/middlewares/validation';
 
 import { AlbumController } from './album.controller';
 import { albumSchema } from './album.validation';
@@ -27,4 +27,14 @@ albumRouter.patch(
     checkLogin,
     validateMiddleware(albumSchema.patchModifyAlbum),
     AlbumController.patchModifyAlbum,
-)
+);
+
+albumRouter.get(
+    '/:albumId',
+    checkLogin,
+    validateMiddleware(albumSchema.getAlbum),
+    AlbumController.getAlbum,
+);
+
+albumRouter.get('/list', checkLogin, AlbumController.getAlbumList);
+

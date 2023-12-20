@@ -34,7 +34,7 @@ export class AlbumService {
         }
 
         const { deleted } = await albumModel.softDelete({ id: albumId });
-        return !!deleted;
+        return deleted > 0;
     }
 
     static async modifyAlbum({
@@ -53,6 +53,27 @@ export class AlbumService {
             { $set: { name } },
         );
 
-        return !!updatedResult.modifiedCount;
+        return updatedResult.modifiedCount > 0;
+    }
+
+    static async getAlbum({
+        albumId,
+        ownerId,
+    }: AlbumServiceReqParam['getAlbum']) {
+        const ownedAlbum = await albumModel.findOne({ id: albumId, ownerId });
+
+        if (!ownedAlbum) {
+            throw new BadRequestError('존재하지 않는 앨범입니다.');
+        }
+
+        return ownedAlbum;
+    }
+
+    static async getAlbumList({
+        ownerId,
+    }: AlbumServiceReqParam['getAlbumList']) {
+        const ownedAlbumList = await albumModel.find({ ownerId });
+
+        return ownedAlbumList;
     }
 }
