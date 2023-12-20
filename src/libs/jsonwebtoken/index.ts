@@ -1,5 +1,5 @@
 import dotenv from 'dotenv';
-import jsonwebtoken, { type JwtPayload } from 'jsonwebtoken';
+import jsonwebtoken from 'jsonwebtoken';
 
 import { UnauthorizedError } from '#/errors/definedErrors';
 
