@@ -1,5 +1,3 @@
-import { RequestHandler } from 'express-serve-static-core';
-
 import type { AlbumSchema } from '#/routes/album/album.validation';
 import { AlbumService } from '#/service/album/album.service';
 import { ValidatedRequestHandler } from '#/types/validation';
@@ -65,7 +63,7 @@ export class AlbumController {
         return res.status(200).json({ item });
     };
 
-    static getAlbumList: RequestHandler = async (_, res) => {
+    static getAlbumList: ValidatedRequestHandler = async (_, res) => {
         const { userId } = res.locals;
 
         const items = await AlbumService.getAlbumList({

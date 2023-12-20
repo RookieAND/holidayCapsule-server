@@ -14,7 +14,6 @@ export class AuthController {
 
         // NOTE : 유저 정보가 있다면 로그인을 진행하고, 그렇지 않은 경우 회원가입 진행
         if (user) {
-            console.log(user);
             const { accessToken, refreshToken } = AuthService.login({
                 userId: user.id,
             });

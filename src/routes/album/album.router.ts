@@ -1,5 +1,6 @@
 import { Router } from 'express';
 
+import { errorCatchHandler } from '#/errors/errorCatchHandler';
 import { checkLogin } from '#/middlewares/checkLogin';
 import { validateMiddleware } from '#/middlewares/validation';
 
@@ -12,29 +13,32 @@ albumRouter.post(
     '/new',
     checkLogin,
     validateMiddleware(albumSchema.postCreateAlbum),
-    AlbumController.postCreateAlbum,
+    errorCatchHandler(AlbumController.postCreateAlbum),
+);
+
+albumRouter.get(
+    '/list',
+    checkLogin,
+    errorCatchHandler(AlbumController.getAlbumList),
 );
 
 albumRouter.delete(
     '/:albumId',
     checkLogin,
     validateMiddleware(albumSchema.deleteAlbum),
-    AlbumController.deleteAlbum,
+    errorCatchHandler(AlbumController.deleteAlbum),
 );
 
 albumRouter.patch(
     '/:albumId',
     checkLogin,
     validateMiddleware(albumSchema.patchModifyAlbum),
-    AlbumController.patchModifyAlbum,
+    errorCatchHandler(AlbumController.patchModifyAlbum),
 );
 
 albumRouter.get(
     '/:albumId',
     checkLogin,
     validateMiddleware(albumSchema.getAlbum),
-    AlbumController.getAlbum,
+    errorCatchHandler(AlbumController.getAlbum),
 );
-
-albumRouter.get('/list', checkLogin, AlbumController.getAlbumList);
-
