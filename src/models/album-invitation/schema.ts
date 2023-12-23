@@ -8,7 +8,7 @@ export interface AlbumInvitationType extends Document {
     /**
      * 앨범 초대 수락에 필요한 Pin Number
      */
-    pinCode: string;
+    invitationCode: string;
     /**
      * 만료 기한
      */
@@ -20,7 +20,7 @@ export const albumInvitationSchema = new Schema<AlbumInvitationType>({
         type: String,
         unique: true,
     },
-    pinCode: {
+    invitationCode: {
         type: String,
         required: true,
     },
