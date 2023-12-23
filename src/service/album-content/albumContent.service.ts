@@ -8,16 +8,19 @@ export class AlbumContentService {
         albumId,
         ownerId,
     }: ReqParam['getAlbumContentList']) {
-        const albumContentList = await albumContentModel
-            .find({ albumId }, { _id: 0 })
-            .then((contentList) =>
-                contentList.map(({ ownerId: contentOwnerId, ...rest }) => ({
-                    ...rest,
-                    isOwned: ownerId === contentOwnerId,
-                })),
-            );
+        const [items, total] = await Promise.all([
+            albumContentModel
+                .find({ albumId }, { _id: 0 })
+                .then((contentList) =>
+                    contentList.map(({ ownerId: contentOwnerId, ...rest }) => ({
+                        ...rest,
+                        isOwned: ownerId === contentOwnerId,
+                    })),
+                ),
+            albumContentModel.countDocuments({ albumId }),
+        ]);
 
-        return albumContentList;
+        return { items, total };
     }
 
     static async getAlbumContent({

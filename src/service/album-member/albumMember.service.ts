@@ -60,11 +60,15 @@ export class AlbumMemberService {
     static async getAlbumMemberList({
         albumId,
     }: ReqParam['getAlbumMemberList']) {
-        const albumMemberList = await albumMemberModel.find(
-            { albumId },
-            { _id: 0, __v: 0 },
-        );
 
-        return albumMemberList;
+        const [memberList, total] = await Promise.all([
+            albumMemberModel.find(
+                { albumId },
+                { _id: 0, __v: 0 },
+            ),
+            albumMemberModel.countDocuments({ albumId })
+        ])
+
+        return { items: memberList, total };
     }
 }

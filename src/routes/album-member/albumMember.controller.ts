@@ -23,11 +23,11 @@ export class AlbumMemberController {
     > = async (req, res) => {
         const { albumId } = req.params;
 
-        const items = await AlbumMemberService.getAlbumMemberList({
+        const { items, total } = await AlbumMemberService.getAlbumMemberList({
             albumId,
         });
 
-        return res.status(200).json({ items });
+        return res.status(200).json({ items, total });
     };
 
     static deleteAlbumMember: ValidatedRequestHandler<
