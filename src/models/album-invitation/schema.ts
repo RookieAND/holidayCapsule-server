@@ -1,4 +1,5 @@
 import { Document, Schema } from 'mongoose';
+import { customAlphabet } from 'nanoid';
 
 export interface AlbumInvitationType extends Document {
     /**
@@ -16,16 +17,26 @@ export interface AlbumInvitationType extends Document {
 }
 
 export const albumInvitationSchema = new Schema<AlbumInvitationType>({
-    id: {
+    albumId: {
         type: String,
         unique: true,
     },
     invitationCode: {
         type: String,
-        required: true,
+        unique: true,
     },
     dueDate: {
         type: Date,
         required: true,
     },
+});
+
+// NOTE : 영어 대문자 + 숫자로 이루어진 PIN 을 Id로 발급
+albumInvitationSchema.pre('save', function (next) {
+    const generatedCode = customAlphabet(
+        '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ',
+        6,
+    )();
+    this.invitationCode = generatedCode;
+    next();
 });
