@@ -1,4 +1,7 @@
 import cors from 'cors';
+import dayjs from 'dayjs';
+import tz from 'dayjs/plugin/timezone';
+import utc from 'dayjs/plugin/utc';
 import dotenv from 'dotenv';
 import express from 'express';
 import helmet from 'helmet';
@@ -14,6 +17,10 @@ import router from '#/routes';
 import mongoConnection from '#/utils/connectMongoDB';
 
 dotenv.config();
+
+dayjs.extend(utc);
+dayjs.extend(tz);
+dayjs.tz.setDefault('Asia/Seoul');
 
 const isProd: boolean = process.env.NODE_ENV === 'production';
 const CURRENT_CONFIG = isProd ? PROD_CONFIG : DEV_CONFIG;

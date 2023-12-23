@@ -3,7 +3,14 @@ export type ReqParam = {
         ownerId: string;
         name: string;
     };
+    createInvitation: {
+        albumId: string;
+        dueDate?: Date;
+    };
     deleteAlbum: {
+        albumId: string;
+    };
+    deleteInvitation: {
         albumId: string;
     };
     modifyAlbum: {

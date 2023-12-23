@@ -17,6 +17,14 @@ albumRouter.post(
     errorCatchHandler(AlbumController.postCreateAlbum),
 );
 
+albumRouter.post(
+    '/:albumId/invitation',
+    checkLogin,
+    checkRole({ isOwner: true }),
+    validateMiddleware(albumSchema.postCreateInvitation),
+    errorCatchHandler(AlbumController.postCreateInvitation),
+);
+
 albumRouter.get(
     '/list',
     checkLogin,
@@ -29,6 +37,14 @@ albumRouter.delete(
     checkRole({ isOwner: true }),
     validateMiddleware(albumSchema.deleteAlbum),
     errorCatchHandler(AlbumController.deleteAlbum),
+);
+
+albumRouter.delete(
+    '/:albumId/invitation',
+    checkLogin,
+    checkRole({ isOwner: true }),
+    validateMiddleware(albumSchema.deleteInvitation),
+    errorCatchHandler(AlbumController.deleteInvitation),
 );
 
 albumRouter.patch(
