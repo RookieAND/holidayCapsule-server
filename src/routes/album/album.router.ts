@@ -2,6 +2,7 @@ import { Router } from 'express';
 
 import { errorCatchHandler } from '#/errors/errorCatchHandler';
 import { checkLogin } from '#/middlewares/checkLogin';
+import { checkRole } from '#/middlewares/checkRole';
 import { validateMiddleware } from '#/middlewares/validation';
 
 import { AlbumController } from './album.controller';
@@ -25,6 +26,7 @@ albumRouter.get(
 albumRouter.delete(
     '/:albumId',
     checkLogin,
+    checkRole({ isOwner: true }),
     validateMiddleware(albumSchema.deleteAlbum),
     errorCatchHandler(AlbumController.deleteAlbum),
 );
@@ -32,6 +34,7 @@ albumRouter.delete(
 albumRouter.patch(
     '/:albumId',
     checkLogin,
+    checkRole({ isOwner: true }),
     validateMiddleware(albumSchema.patchModifyAlbum),
     errorCatchHandler(AlbumController.patchModifyAlbum),
 );
@@ -39,6 +42,7 @@ albumRouter.patch(
 albumRouter.get(
     '/:albumId',
     checkLogin,
+    checkRole({ isMember: true }),
     validateMiddleware(albumSchema.getAlbum),
     errorCatchHandler(AlbumController.getAlbum),
 );
