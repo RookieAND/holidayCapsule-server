@@ -8,6 +8,6 @@ import { type AlbumMemberType, albumMemberSchema } from './schema';
 type PluginModel<T extends Document> = BaseMethodModel<T> & SoftDeleteModel<T>;
 
 export const albumMemberModel = model<
-AlbumMemberType,
+    AlbumMemberType,
     PluginModel<AlbumMemberType>
 >('album_content', albumMemberSchema);

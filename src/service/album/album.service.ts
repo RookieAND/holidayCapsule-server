@@ -1,4 +1,4 @@
-import { BadRequestError, ForbiddenError } from '#/errors/definedErrors';
+import { ForbiddenError } from '#/errors/definedErrors';
 import { albumModel } from '#/models/album';
 import { albumContentModel } from '#/models/album-content';
 import { albumMemberModel } from '#/models/album-member';
@@ -37,10 +37,7 @@ export class AlbumService {
         return deleted > 0;
     }
 
-    static async modifyAlbum({
-        albumId,
-        name,
-    }: ReqParam['modifyAlbum']) {
+    static async modifyAlbum({ albumId, name }: ReqParam['modifyAlbum']) {
         const updatedResult = await albumModel.updateOne(
             { id: albumId },
             { $set: { name } },

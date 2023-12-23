@@ -1,6 +1,6 @@
 import { ResourceConflictError } from '#/errors/definedErrors';
-import { albumMemberModel } from '#/models/album-member';
 import { albumContentModel } from '#/models/album-content';
+import { albumMemberModel } from '#/models/album-member';
 import { albumMemberEnum } from '#/models/album-member/schema';
 
 import type { ReqParam } from './type';
@@ -44,14 +44,10 @@ export class AlbumMemberService {
     static async getAlbumMemberList({
         albumId,
     }: ReqParam['getAlbumMemberList']) {
-
         const [memberList, total] = await Promise.all([
-            albumMemberModel.find(
-                { albumId },
-                { _id: 0, __v: 0 },
-            ),
-            albumMemberModel.countDocuments({ albumId })
-        ])
+            albumMemberModel.find({ albumId }, { _id: 0, __v: 0 }),
+            albumMemberModel.countDocuments({ albumId }),
+        ]);
 
         return { items: memberList, total };
     }

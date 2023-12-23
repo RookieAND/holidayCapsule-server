@@ -7,8 +7,8 @@ export const albumMemberEnum = {
     role: {
         MEMBER: 0,
         OWNER: 1,
-    }
-}
+    },
+};
 
 export interface AlbumMemberType extends Document {
     /**
@@ -43,7 +43,7 @@ export const albumMemberSchema = new Schema<
     },
     userId: {
         type: String,
-        required: true, 
+        required: true,
     },
     role: {
         type: Number,
