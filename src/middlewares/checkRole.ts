@@ -18,8 +18,8 @@ type ResponseLocalQuery = {
 };
 
 type RequestCheckRole = {
-    isOwner: boolean;
-    isMember: boolean;
+    isOwner?: boolean;
+    isMember?: boolean;
 };
 
 // Param 에 들어간 AlbumId 과 User Id 를 기반으로 권한에 맞는 요청을 보냈는지 판별하는 Middleware checkRole
@@ -49,18 +49,20 @@ export const checkRole: ({
             throw new BadRequestError('유효하지 않은 앨범 ID 입니다.');
         }
 
+        // NOTE : 앨범에 소속된 유저가 아니어도 된다면 다음 미들웨어로 이동
+        if (!isOwner && !isMember) {
+            return next();
+        }
+
         const albumMember = await albumMemberModel.findOne({ albumId, userId });
 
-        if (isMember && !albumMember) {
+        if (!albumMember) {
             throw new UnauthorizedError(
                 '앨범에 소속된 멤버만 가능한 요청입니다.',
             );
         }
 
-        if (
-            isOwner &&
-            (!albumMember || albumMember.role !== albumMemberEnum.role.OWNER)
-        ) {
+        if (isOwner && albumMember.role !== albumMemberEnum.role.OWNER) {
             throw new ForbiddenError('앨범의 소유주만 가능한 요청입니다.');
         }
 
