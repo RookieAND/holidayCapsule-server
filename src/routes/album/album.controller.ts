@@ -1,5 +1,5 @@
 import type { AlbumSchema } from '#/routes/album/album.validation';
-import AlbumService from '#/service/album';
+import { AlbumService } from '#/service/album';
 import { ValidatedRequestHandler } from '#/types/validation';
 
 export class AlbumController {
