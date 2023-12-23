@@ -3,6 +3,13 @@ import { Schema } from 'mongoose';
 
 import { mongooseUniqueIdPlugin } from '#/libs/mongoose/unique-id';
 
+export const albumMemberEnum = {
+    role: {
+        MEMBER: 0,
+        OWNER: 1,
+    }
+}
+
 export interface AlbumMemberType extends Document {
     /**
      * 앨범 멤버 Id
@@ -19,7 +26,7 @@ export interface AlbumMemberType extends Document {
     /**
      * 유저의 권한
      */
-    role: string;
+    role: number;
 }
 
 export const albumMemberSchema = new Schema<
@@ -39,8 +46,8 @@ export const albumMemberSchema = new Schema<
         required: true, 
     },
     role: {
-        type: String,
-        enum: ['OWNER', 'MEMBER'],
+        type: Number,
+        enum: Object.values(albumMemberEnum.role),
         required: true,
     },
 });
