@@ -10,4 +10,4 @@ type PluginModel<T extends Document> = BaseMethodModel<T> & SoftDeleteModel<T>;
 export const albumMemberModel = model<
     AlbumMemberType,
     PluginModel<AlbumMemberType>
->('album_content', albumMemberSchema);
+>('album_member', albumMemberSchema);
