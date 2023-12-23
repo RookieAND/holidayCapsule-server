@@ -1,6 +1,7 @@
 import { Router } from 'express';
 
 import { albumRouter } from './album';
+import { albumContentRouter } from './album-content';
 import { authRouter } from './auth';
 import docsRouter from './docs';
 
@@ -18,6 +19,10 @@ const routerList = [
     {
         path: '/album',
         router: albumRouter,
+    },
+    {
+        path: '/album-content',
+        router: albumContentRouter,
     },
 ];
 

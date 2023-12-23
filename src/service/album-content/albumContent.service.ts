@@ -20,9 +20,32 @@ export class AlbumContentService {
         return albumContentList;
     }
 
+    static async getAlbumContent({
+        albumId,
+        albumContentId,
+        userId,
+    }: ReqParam['getAlbumContent']) {
+        const albumContent = await albumContentModel.findOne({
+            albumId,
+            id: albumContentId,
+        });
+
+        if (!albumContent) {
+            throw new BadRequestError('유효하지 않은 앨범 컨텐츠 ID 입니다.');
+        }
+
+        if (albumContent.ownerId !== userId) {
+            throw new ForbiddenError(
+                '해당 앨범 컨텐츠를 열람할 수 있는 권한이 없습니다.',
+            );
+        }
+
+        return albumContent;
+    }
+
     static async createAlbumContent({
         albumId,
-        ownerId,
+        userId,
         imageFileKey,
         eventDate,
         content,
@@ -37,7 +60,7 @@ export class AlbumContentService {
 
         const createdContent = await albumContentModel.create({
             albumId,
-            ownerId,
+            ownerId: userId,
             imageFileKey,
             eventDate,
             content,
@@ -47,17 +70,18 @@ export class AlbumContentService {
         return createdContent;
     }
 
-    static async swapAlbumContentSequence([
+    static async swapAlbumContentSequence({
+        albumId,
         firstContentId,
         secondContentId,
-    ]: ReqParam['swapAlbumContentSequence']) {
+    }: ReqParam['swapAlbumContentSequence']) {
         const [firstContent, secondContent] = await Promise.all([
             albumContentModel.findOne(
-                { id: firstContentId },
+                { albumId, id: firstContentId },
                 { _id: 0, sequence: 1 },
             ),
             albumContentModel.findOne(
-                { id: secondContentId },
+                { albumId, id: secondContentId },
                 { _id: 0, sequence: 1 },
             ),
         ]);
@@ -80,26 +104,43 @@ export class AlbumContentService {
         return true;
     }
 
-    static async removeAlbumContent({
-        ownerId,
+    static async deleteAlbumContent({
+        userId,
+        albumId,
         albumContentId,
-    }: ReqParam['removeAlbumContent']) {
-        const result = await albumContentModel.softDelete({
+    }: ReqParam['deleteAlbumContent']) {
+        const deletedContent = await albumContentModel.findOne({
+            albumId,
             id: albumContentId,
-            ownerId,
         });
-        return result;
+
+        if (!deletedContent) {
+            throw new BadRequestError('존재하지 않는 앨범 컨텐츠 ID 입니다.');
+        }
+
+        if (userId !== deletedContent.ownerId) {
+            throw new ForbiddenError(
+                '본인 소유가 아닌 앨범 컨텐츠를 삭제할 수 없습니다.',
+            );
+        }
+
+        const deleteResult = await albumContentModel.softDelete({
+            albumId,
+            ownerId: userId,
+            id: albumContentId,
+        });
+        return deleteResult.deleted > 0;
     }
 
     static async updateAlbumContent({
-        ownerId,
+        userId,
         albumContentId,
         imageFileKey,
         eventDate,
         content,
     }: ReqParam['updateAlbumContent']) {
         const result = await albumContentModel.updateOne(
-            { id: albumContentId, ownerId },
+            { id: albumContentId, ownerId: userId },
             { $set: { imageFileKey, eventDate, content } },
         );
 
