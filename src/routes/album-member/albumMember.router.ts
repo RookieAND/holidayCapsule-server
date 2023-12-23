@@ -7,23 +7,23 @@ import { validateMiddleware } from '#/middlewares/validation';
 import { AlbumMemberController } from './albumMember.controller';
 import { albumMemberSchema } from './albumMember.validation';
 
-export const albumContentRouter = Router();
+export const albumMemberRouter = Router();
 
-albumContentRouter.post(
+albumMemberRouter.post(
     '/:albumId/new',
     checkLogin,
     validateMiddleware(albumMemberSchema.postInviteAlbumMember),
     errorCatchHandler(AlbumMemberController.postInviteAlbumMember),
 );
 
-albumContentRouter.get(
+albumMemberRouter.get(
     '/:albumId/list',
     checkLogin,
     validateMiddleware(albumMemberSchema.getAlbumMemberList),
     errorCatchHandler(AlbumMemberController.getAlbumMemberList),
 );
 
-albumContentRouter.delete(
+albumMemberRouter.delete(
     '/:albumId/:albumContentId',
     checkLogin,
     validateMiddleware(albumMemberSchema.deleteAlbumMember),
