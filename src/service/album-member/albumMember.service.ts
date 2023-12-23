@@ -1,7 +1,7 @@
-import { BadRequestError, ResourceConflictError } from '#/errors/definedErrors';
+import { ResourceConflictError } from '#/errors/definedErrors';
 import { albumMemberModel } from '#/models/album-member';
+import { albumContentModel } from '#/models/album-content';
 import { albumMemberEnum } from '#/models/album-member/schema';
-import { userModel } from '#/models/user';
 
 import type { ReqParam } from './type';
 
@@ -32,27 +32,11 @@ export class AlbumMemberService {
         albumId,
         userId,
     }: ReqParam['deleteAlbumMember']) {
-        const isValidUser = await userModel.exists({
-            id: userId,
-        });
-
-        if (!isValidUser) {
-            throw new BadRequestError('존재하지 않는 사용자 ID 입니다.');
-        }
-
-        const isJoined = await albumMemberModel.exists({
-            albumId,
-            userId,
-        });
-
-        if (!isJoined) {
-            throw new BadRequestError('앨범에 참여 중인 사용자가 아닙니다.');
-        }
-
         const deleteResult = await albumMemberModel.softDelete({
             albumId,
             userId,
         });
+        await albumContentModel.softDelete({ albumId, userId });
 
         return deleteResult.deleted > 0;
     }
