@@ -6,7 +6,7 @@ export type ReqParam = {
     createInvitation: {
         albumId: string;
         dueDate?: Date;
-    }
+    };
     deleteAlbum: {
         albumId: string;
     };

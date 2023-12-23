@@ -40,7 +40,9 @@ export class AlbumMemberService {
         });
 
         if (joinedMembers > 4) {
-            throw new ResourceConflictError('하나의 앨범에는 최대 4명의 유저만 들어올 수 있습니다.');
+            throw new ResourceConflictError(
+                '하나의 앨범에는 최대 4명의 유저만 들어올 수 있습니다.',
+            );
         }
 
         const createdMember = await albumMemberModel.create({

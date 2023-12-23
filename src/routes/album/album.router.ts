@@ -25,7 +25,6 @@ albumRouter.post(
     errorCatchHandler(AlbumController.postCreateInvitation),
 );
 
-
 albumRouter.get(
     '/list',
     checkLogin,

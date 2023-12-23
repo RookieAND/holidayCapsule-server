@@ -7,7 +7,7 @@ import { type AlbumInvitationType, albumInvitationSchema } from './schema';
 
 type PluginModel<T extends Document> = BaseMethodModel<T> & SoftDeleteModel<T>;
 
-export const albumInvitationModel = model<AlbumInvitationType, PluginModel<AlbumInvitationType>>(
-    'album_invitation',
-    albumInvitationSchema,
-);
+export const albumInvitationModel = model<
+    AlbumInvitationType,
+    PluginModel<AlbumInvitationType>
+>('album_invitation', albumInvitationSchema);
