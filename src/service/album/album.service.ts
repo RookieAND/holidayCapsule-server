@@ -1,5 +1,8 @@
-import { BadRequestError, ForbiddenError } from '#/errors/definedErrors';
+import { ForbiddenError } from '#/errors/definedErrors';
 import { albumModel } from '#/models/album';
+import { albumContentModel } from '#/models/album-content';
+import { albumMemberModel } from '#/models/album-member';
+import { albumMemberEnum } from '#/models/album-member/schema';
 
 import type { ReqParam } from './type';
 
@@ -17,31 +20,24 @@ export class AlbumService {
         }
 
         const createdAlbum = await albumModel.create({ ownerId, name });
+        await albumMemberModel.create({
+            albumId: createdAlbum.id,
+            userId: ownerId,
+            role: albumMemberEnum.role.OWNER,
+        });
+
         return createdAlbum;
     }
 
-    static async deleteAlbum({ albumId, ownerId }: ReqParam['deleteAlbum']) {
-        const ownedAlbum = await albumModel.findOne({ id: albumId, ownerId });
-
-        if (!ownedAlbum) {
-            throw new BadRequestError('존재하지 않는 앨범입니다.');
-        }
-
+    static async deleteAlbum({ albumId }: ReqParam['deleteAlbum']) {
         const { deleted } = await albumModel.softDelete({ id: albumId });
+        await albumMemberModel.softDelete({ albumId });
+        await albumContentModel.softDelete({ albumId });
+
         return deleted > 0;
     }
 
-    static async modifyAlbum({
-        albumId,
-        ownerId,
-        name,
-    }: ReqParam['modifyAlbum']) {
-        const ownedAlbum = await albumModel.findOne({ id: albumId, ownerId });
-
-        if (!ownedAlbum) {
-            throw new BadRequestError('존재하지 않는 앨범입니다.');
-        }
-
+    static async modifyAlbum({ albumId, name }: ReqParam['modifyAlbum']) {
         const updatedResult = await albumModel.updateOne(
             { id: albumId },
             { $set: { name } },
@@ -52,17 +48,11 @@ export class AlbumService {
 
     static async getAlbum({ albumId, ownerId }: ReqParam['getAlbum']) {
         const ownedAlbum = await albumModel.findOne({ id: albumId, ownerId });
-
-        if (!ownedAlbum) {
-            throw new BadRequestError('존재하지 않는 앨범입니다.');
-        }
-
         return ownedAlbum;
     }
 
     static async getAlbumList({ ownerId }: ReqParam['getAlbumList']) {
         const ownedAlbumList = await albumModel.find({ ownerId });
-
         return ownedAlbumList;
     }
 }

@@ -42,12 +42,12 @@ export class AlbumContentController {
         const { albumId } = req.params;
         const { userId } = res.locals;
 
-        const items = await AlbumContentService.getAlbumContentList({
+        const { items, total } = await AlbumContentService.getAlbumContentList({
             albumId,
             ownerId: userId,
         });
 
-        return res.status(200).json({ items });
+        return res.status(200).json({ items, total });
     };
 
     static deleteAlbumContent: ValidatedRequestHandler<

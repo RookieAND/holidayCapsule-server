@@ -1,5 +1,5 @@
 import type { AlbumSchema } from '#/routes/album/album.validation';
-import AlbumService from '#/service/album';
+import { AlbumService } from '#/service/album';
 import { ValidatedRequestHandler } from '#/types/validation';
 
 export class AlbumController {
@@ -20,10 +20,8 @@ export class AlbumController {
     static deleteAlbum: ValidatedRequestHandler<AlbumSchema['deleteAlbum']> =
         async (req, res) => {
             const { albumId } = req.params;
-            const { userId } = res.locals;
 
             const deleteResult = await AlbumService.deleteAlbum({
-                ownerId: userId,
                 albumId,
             });
 
@@ -36,10 +34,8 @@ export class AlbumController {
     > = async (req, res) => {
         const { albumId } = req.params;
         const { name } = req.body;
-        const { userId } = res.locals;
 
         const updateResult = await AlbumService.modifyAlbum({
-            ownerId: userId,
             albumId,
             name,
         });

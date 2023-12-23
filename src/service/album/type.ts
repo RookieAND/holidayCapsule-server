@@ -4,11 +4,9 @@ export type ReqParam = {
         name: string;
     };
     deleteAlbum: {
-        ownerId: string;
         albumId: string;
     };
     modifyAlbum: {
-        ownerId: string;
         albumId: string;
         name: string;
     };

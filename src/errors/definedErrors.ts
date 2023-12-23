@@ -67,6 +67,21 @@ class NotFoundError extends Error {
 }
 
 /**
+ * 409 Conflict Error (충돌 오류)
+ * @param 서버에서 일어난 에러 발생 사유 message
+ */
+class ResourceConflictError extends Error {
+    constructor(message: string) {
+        super(message);
+        this.name = 'ResourceConflictError';
+        this.message = message;
+        Object.setPrototypeOf(this, ResourceConflictError.prototype);
+    }
+
+    statusCode = STATUS_CODE.CONFLICT;
+}
+
+/**
  * 500 Unauthorized Error (서버 오류)
  * @param 서버에서 일어난 에러 발생 사유 message
  */
@@ -86,5 +101,6 @@ export {
     UnauthorizedError,
     ForbiddenError,
     NotFoundError,
+    ResourceConflictError,
     InternalServerError,
 };
