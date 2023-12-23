@@ -1,16 +1,13 @@
 import { BadRequestError, ForbiddenError } from '#/errors/definedErrors';
 import { albumModel } from '#/models/album';
 
-import type { AlbumServiceReqParam } from './type';
+import type { ReqParam } from './type';
 
 export class AlbumService {
     /**
      * 새로운 앨범을 생성하는 함수 register
      */
-    static async createAlbum({
-        ownerId,
-        name,
-    }: AlbumServiceReqParam['createAlbum']) {
+    static async createAlbum({ ownerId, name }: ReqParam['createAlbum']) {
         const ownedAlbumAmount = await albumModel.countDocuments({
             ownerId,
         });
@@ -23,10 +20,7 @@ export class AlbumService {
         return createdAlbum;
     }
 
-    static async deleteAlbum({
-        albumId,
-        ownerId,
-    }: AlbumServiceReqParam['deleteAlbum']) {
+    static async deleteAlbum({ albumId, ownerId }: ReqParam['deleteAlbum']) {
         const ownedAlbum = await albumModel.findOne({ id: albumId, ownerId });
 
         if (!ownedAlbum) {
@@ -41,7 +35,7 @@ export class AlbumService {
         albumId,
         ownerId,
         name,
-    }: AlbumServiceReqParam['modifyAlbum']) {
+    }: ReqParam['modifyAlbum']) {
         const ownedAlbum = await albumModel.findOne({ id: albumId, ownerId });
 
         if (!ownedAlbum) {
@@ -56,10 +50,7 @@ export class AlbumService {
         return updatedResult.modifiedCount > 0;
     }
 
-    static async getAlbum({
-        albumId,
-        ownerId,
-    }: AlbumServiceReqParam['getAlbum']) {
+    static async getAlbum({ albumId, ownerId }: ReqParam['getAlbum']) {
         const ownedAlbum = await albumModel.findOne({ id: albumId, ownerId });
 
         if (!ownedAlbum) {
@@ -69,9 +60,7 @@ export class AlbumService {
         return ownedAlbum;
     }
 
-    static async getAlbumList({
-        ownerId,
-    }: AlbumServiceReqParam['getAlbumList']) {
+    static async getAlbumList({ ownerId }: ReqParam['getAlbumList']) {
         const ownedAlbumList = await albumModel.find({ ownerId });
 
         return ownedAlbumList;

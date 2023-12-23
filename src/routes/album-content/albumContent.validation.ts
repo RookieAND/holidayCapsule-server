@@ -34,7 +34,7 @@ export const albumContentSchema = {
         }),
         body: z.object({
             swapContent: z.tuple([z.string(), z.string()]),
-        })
+        }),
     }),
     patchUpdateContent: z.object({
         params: z.object({
@@ -46,7 +46,7 @@ export const albumContentSchema = {
             eventDate: z.coerce.date().optional(),
             content: z.string().max(50).optional(),
         }),
-    })
+    }),
 };
 
 export type AlbumContentSchema = {

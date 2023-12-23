@@ -1,7 +1,7 @@
 import { JsonwebtokenModule } from '#/libs/jsonwebtoken';
 import { userModel } from '#/models/user';
 
-import type { AuthServiceReqParam } from './type';
+import type { ReqParam } from './type';
 
 export class AuthService {
     /**
@@ -11,7 +11,7 @@ export class AuthService {
         socialId,
         nickname,
         profileImageUrl,
-    }: AuthServiceReqParam['register']) {
+    }: ReqParam['register']) {
         const createdUser = await userModel.create({
             socialId,
             profileImageUrl,
@@ -26,9 +26,7 @@ export class AuthService {
     /**
      * 기존 유저의 로그인을 진행하는 함수 login
      */
-    static login({
-        userId,
-    }: AuthServiceReqParam['login']) {
+    static login({ userId }: ReqParam['login']) {
         const accessToken = JsonwebtokenModule.createAccessToken(userId);
         const refreshToken = JsonwebtokenModule.createRefreshToken(userId);
         return { accessToken, refreshToken };

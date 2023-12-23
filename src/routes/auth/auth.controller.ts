@@ -1,6 +1,6 @@
 import { userModel } from '#/models/user';
 import type { AuthSchema } from '#/routes/auth/auth.validation';
-import { AuthService } from '#/service/auth/auth.service';
+import { AuthService } from '#/service/auth';
 import { ValidatedRequestHandler } from '#/types/validation';
 
 export class AuthController {

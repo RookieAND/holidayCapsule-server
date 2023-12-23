@@ -50,5 +50,3 @@ albumContentRouter.patch(
     validateMiddleware(albumContentSchema.patchSwapContent),
     errorCatchHandler(AlbumContentController.patchSwapContent),
 );
-
-

@@ -6,7 +6,6 @@ import { UnauthorizedError } from '#/errors/definedErrors';
 import { JsonwebtokenModule } from '#/libs/jsonwebtoken';
 import { userModel } from '#/models/user';
 
-
 // TODO : res.locals 가 타입 추론이 되도록 이후 미들웨어에서의 제어 필요
 interface ResponseLocalQuery {
     [key: string]: unknown;

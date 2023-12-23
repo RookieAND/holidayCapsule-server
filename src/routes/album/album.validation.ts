@@ -9,12 +9,12 @@ export const albumSchema = {
     deleteAlbum: z.object({
         params: z.object({
             albumId: z.string(),
-        })
+        }),
     }),
     getAlbum: z.object({
         params: z.object({
             albumId: z.string(),
-        })
+        }),
     }),
     patchModifyAlbum: z.object({
         params: z.object({

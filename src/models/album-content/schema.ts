@@ -1,10 +1,7 @@
 import type { Document, Model } from 'mongoose';
 import { Schema } from 'mongoose';
 
-
-
 import { mongooseUniqueIdPlugin } from '#/libs/mongoose/unique-id';
-
 
 export interface AlbumContentType extends Document {
     /**
@@ -70,7 +67,6 @@ export const albumContentSchema = new Schema<
         required: true,
     },
 });
-
 
 albumContentSchema.index({ albumId: 1, ownerId: 1 });
 albumContentSchema.plugin(mongooseUniqueIdPlugin, 'album_content');

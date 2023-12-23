@@ -15,9 +15,7 @@ import type {
  */
 
 export const errorCatchHandler =
-    <T extends ValidationSchema>(
-        fn: ValidatedRequestHandler<T>,
-    ) =>
+    <T extends ValidationSchema>(fn: ValidatedRequestHandler<T>) =>
     (
         req: ValidatedRequest<T>,
         res: ValidatedResponse<T>,

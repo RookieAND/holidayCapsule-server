@@ -1,4 +1,4 @@
-import { Schema, Document } from 'mongoose';
+import { Document, Schema } from 'mongoose';
 
 import { mongooseUniqueIdPlugin } from '#/libs/mongoose/unique-id';
 

@@ -1,8 +1,5 @@
 import type { NextFunction, Request, Response } from 'express';
-import type {
-    ParamsDictionary,
-    Query,
-} from 'express-serve-static-core';
+import type { ParamsDictionary, Query } from 'express-serve-static-core';
 
 export type PaginatedType<T = unknown> = { page: number; limit: number } & T;
 export interface RequestQuery {
@@ -42,7 +39,9 @@ export type ValidatedResponse<T extends ValidationSchema> = Response<
     ResponseLocalQuery<T>
 >;
 
-export type ValidatedRequestHandler<T extends ValidationSchema = ValidationSchema> = (
+export type ValidatedRequestHandler<
+    T extends ValidationSchema = ValidationSchema,
+> = (
     req: ValidatedRequest<T>,
     res: ValidatedResponse<T>,
     next: NextFunction,

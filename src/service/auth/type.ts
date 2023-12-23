@@ -1,10 +1,10 @@
-export type AuthServiceReqParam = {
+export type ReqParam = {
     register: {
         socialId: number;
         profileImageUrl: string;
         nickname: string;
-    }
+    };
     login: {
-        userId: string
-    }
-}
+        userId: string;
+    };
+};

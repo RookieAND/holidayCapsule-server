@@ -1,3 +1,3 @@
-import { AlbumContentService } from "./albumContent.service";
+import { AlbumContentService } from './albumContent.service';
 
-export default AlbumContentService;
+export { AlbumContentService };
