@@ -4,6 +4,7 @@ export const albumMemberSchema = {
     postInviteAlbumMember: z.object({
         params: z.object({
             albumId: z.string(),
+            invitationCode: z.string(),
         }),
     }),
     deleteAlbumMember: z.object({

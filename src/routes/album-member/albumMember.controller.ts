@@ -7,11 +7,12 @@ export class AlbumMemberController {
     static postInviteAlbumMember: ValidatedRequestHandler<
         AlbumMemberSchema['postInviteAlbumMember']
     > = async (req, res) => {
-        const { albumId } = req.params;
+        const { albumId, invitationCode } = req.params;
         const { userId } = res.locals;
 
         const createdAlbum = await AlbumMemberService.createAlbumMember({
             albumId,
+            invitationCode,
             userId,
         });
 

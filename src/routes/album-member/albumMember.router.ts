@@ -11,7 +11,7 @@ import { albumMemberSchema } from './albumMember.validation';
 export const albumMemberRouter = Router();
 
 albumMemberRouter.post(
-    '/:albumId/new',
+    '/:albumId/:invitationCode',
     checkLogin,
     checkRole({ isOwner: true }),
     validateMiddleware(albumMemberSchema.postInviteAlbumMember),

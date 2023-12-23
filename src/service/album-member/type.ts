@@ -1,6 +1,7 @@
 export type ReqParam = {
     createAlbumMember: {
         albumId: string;
+        invitationCode: string;
         userId: string;
     };
     deleteAlbumMember: {

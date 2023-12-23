@@ -17,6 +17,20 @@ export class AlbumController {
         return res.status(201).json({ item: createdAlbum });
     };
 
+    static postCreateInvitation: ValidatedRequestHandler<
+        AlbumSchema['postCreateInvitation']
+    > = async (req, res) => {
+        const { dueDate } = req.body;
+        const { albumId } = req.params;
+
+        const createdInvitationCode = await AlbumService.createInvitation({
+            dueDate,
+            albumId,
+        });
+
+        return res.status(201).json({ item: createdInvitationCode });
+    };
+
     static deleteAlbum: ValidatedRequestHandler<AlbumSchema['deleteAlbum']> =
         async (req, res) => {
             const { albumId } = req.params;
@@ -28,6 +42,19 @@ export class AlbumController {
             // NOTE : 삭제된 컬렉션이 없다면 No Content (204) 반환
             return res.sendStatus(deleteResult ? 200 : 204);
         };
+
+    static deleteInvitation: ValidatedRequestHandler<
+        AlbumSchema['deleteInvitation']
+    > = async (req, res) => {
+        const { albumId } = req.params;
+
+        const deleteResult = await AlbumService.deleteInvitation({
+            albumId,
+        });
+
+        // NOTE : 삭제된 컬렉션이 없다면 No Content (204) 반환
+        return res.sendStatus(deleteResult ? 200 : 204);
+    };
 
     static patchModifyAlbum: ValidatedRequestHandler<
         AlbumSchema['patchModifyAlbum']

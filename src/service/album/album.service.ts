@@ -1,6 +1,7 @@
 import { ForbiddenError } from '#/errors/definedErrors';
 import { albumModel } from '#/models/album';
 import { albumContentModel } from '#/models/album-content';
+import { albumInvitationModel } from '#/models/album-invitation';
 import { albumMemberModel } from '#/models/album-member';
 import { albumMemberEnum } from '#/models/album-member/schema';
 
@@ -29,12 +30,36 @@ export class AlbumService {
         return createdAlbum;
     }
 
+    static async createInvitation({
+        albumId,
+        dueDate,
+    }: ReqParam['createInvitation']) {
+        const newInvitation = await albumInvitationModel.findOneAndUpdate(
+            {
+                albumId,
+            },
+            {
+                albumId,
+                ...(dueDate && { dueDate }),
+            },
+            { upsert: true, new: true },
+        );
+
+        return newInvitation.invitationCode;
+    }
+
     static async deleteAlbum({ albumId }: ReqParam['deleteAlbum']) {
         const { deleted } = await albumModel.softDelete({ id: albumId });
         await albumMemberModel.softDelete({ albumId });
         await albumContentModel.softDelete({ albumId });
 
         return deleted > 0;
+    }
+
+    static async deleteInvitation({ albumId }: ReqParam['deleteAlbum']) {
+        const deleteResult = await albumInvitationModel.deleteOne({ albumId });
+
+        return deleteResult.deletedCount > 0;
     }
 
     static async modifyAlbum({ albumId, name }: ReqParam['modifyAlbum']) {
